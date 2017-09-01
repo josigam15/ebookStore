@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+
+
+        <ui:define name="content">
+
+
+
+            <!-- If Client tracking identifies the visitor  as new show specials of the day and their latest visited books -->
+
+
+                <div class="product-widget-area">
+                    <div class="zigzag-bottom"></div>	
+                    <div class="container">
+  
+                        <div class="row">
+                            <c:if test="#{cookiebean.ifCookie()==false}"> 
+ 
+                            <!--                       show  special books-->	
+                            <div class="col-md-4">
+                                <div class="single-product-widget">
+<!--                     <c:if  test="#{cookieBean.ifCookie()==false}" >-->
+                                    <h4 class="product-wid-title">#{msgs.specials}</h4>
+                                    <h:form>
+                                        
+                                           
+                                                <h:dataTable value="#{bookinventoryJpaController.trackedBook}" var="bookinventory">
+
+                                                    <h:column>
+
+                                                        <h:commandLink action="#{navigationController.showPage('9')}" class="wid-view-more" immediate="true">
+                                                            #{msgs.ViewAll}
+                                                        </h:commandLink>
+
+                                                        <div class="single-wid-product">
+
+                                                            <h:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventory.isbn)}"  class="product-f-image">
+                                                                <!--                                <f:param name="pageId" value="1" /> -->
+                                                                <h:graphicImage library="images" name="#{bookinventory.bookimage}.jpg" 
+                                                                                alt="#{bookinventory.bookimage}" value="#{bookinventory.bookimage}" class="product-thumb"/>
+
+
+                                                            </h:commandLink>
+
+                                                            <h4>
+                                                                <h:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventory.isbn)}">
+                                                                    #{bookinventory.title}
+                                                                </h:commandLink>
+
+
+                                                            </h4>
+                                                            <h4>
+                                                                <h:commandLink action ="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventory.isbn)}"
+                                                                               >
+                                                                    <!-- <f:param name="actualView" value="{bookinventorybean.setActualView(bookinventory.isbn)}"/> -->
+                                                                 <i>   #{msgs.isbn}:  #{bookinventory.isbn}</i>
+                                                                </h:commandLink>
+                                                               
+
+
+                                                            </h4>
+                                                            <h4>
+                                                                <i>#{msgs.publisher}: #{bookinventory.publisher}</i> 
+                                                                
+                                                            </h4>
+
+                                                            <div class="product-wid-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="product-wid-price">
+                                                                <ins>#{bookinventory.wholesaleprice }</ins> <del>#{bookinventory.listprice}</del>
+                                                            </div>  
+                                                            <div>
+                                                              <h:form class="cart" id="addtocartForm">  
+                                                                 
+                                                              
+                                                                  <p:commandButton actionListener="#{bookinventorybean.setAddToCart(bookinventory.isbn)}" value="#{msgs.addToCart}" type="submit" onclick="window.location.reload();">
+                                                                  
+                                                                  </p:commandButton>
+                                                              </h:form> 
+
+                                                            </div>
+                                                        </div>
+                                                    </h:column>
+                                                </h:dataTable>
+                                           
+                                        
+                                    </h:form>
+                                    
+   
+                        </div>
+                            </div>
+                              
+                       
+        
+ </c:if>
+                   
+                            <c:if test="#{cookiebean.ifCookie()==true}"> 
+
+                            <!--                       show  special books-->	
+                            <div class="col-md-4">
+                                <div class="single-product-widget">
+<!--                     <c:if  test="#{cookieBean.ifCookie()==false}" >-->
+                                    <h4 class="product-wid-title">#{msgs.specials}</h4>
+                                    <h:form>
+                                        
+                                            <p:panel id="primepanel">
+                                                <p:dataTable value="#{bookinventoryJpaController.trackedBook}" var="bookinventorycookie">
+
+                                                    <p:column>
+
+                                                        <p:commandLink action="#{navigationController.showPage('9')}" class="wid-view-more" immediate="true">
+                                                            #{msgs.ViewAll}
+                                                        </p:commandLink>
+
+                                                        <div class="single-wid-product">
+
+                                                            <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventorycookie.isbn)}" class="product-f-image">
+                                                                <!--                                <f:param name="pageId" value="1" /> -->
+                                                                <p:graphicImage library="images" name="#{bookinventorycookie.bookimage}.jpg" alt="#{bookinventorycookie.bookimage}" value="#{bookinventorycookie.bookimage}" class="product-thumb"/>
+
+
+                                                            </p:commandLink>
+
+                                                            <h4>
+                                                                <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventorycookie.isbn)}" immediate="true">
+                                                                    #{bookinventorycookie.title}
+                                                                </p:commandLink>
+
+
+                                                            </h4>
+                                                            <h4>
+                                                                <p:commandLink action ="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(bookinventorycookie.isbn)}" immediate="true">
+                                                                    
+                                                                    <i>#{msgs.isbn}:  #{bookinventorycookie.isbn}</i>
+                                                                </p:commandLink>
+
+
+                                                            </h4>
+                                                             <h4>
+                                                                <i>#{msgs.publisher}: #{bookinventorycookie.publisher}</i> 
+                                                                
+                                                            </h4>
+                                                            <div class="product-wid-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="product-wid-price">
+                                                                <ins>#{bookinventorycookie.wholesaleprice}</ins> <del>#{bookinventorycookie.listprice}</del>
+                                                            </div>  
+                                                            <div>
+
+                                                              <h:form class="cart" id="addtocartForm">  
+                                                                 
+                                                              
+                                                                  <p:commandButton actionListener="#{bookinventorybean.setAddToCart(bookinventorycookie.isbn)}" value="#{msgs.addToCart}" type="submit" onclick="window.location.reload();">
+                                                                  
+                                                                  </p:commandButton>
+                                                              </h:form> 
+
+                                                            </div>
+                                                        </div>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:panel>
+                                        
+                                    </h:form>
+                                    
+   
+                        </div>
+                            </div>
+                              
+                       
+
+                            <!-- if the client is tracked show selection of his latest visited books  and selection of recent books -->         
+                             
+                                <div class="col-md-4">
+                                    <div class="single-product-widget">
+                                        <h4 class="product-wid-title">#{msgs.yourselection}</h4>
+                                        <h:form>
+                                           
+                                                <p:panel id="primepanel">
+                                                    <p:dataTable value="#{bookinventoryJpaController.latestBooks}" var="latestbooks">
+
+                                                        <p:column>
+
+                                                            <p:commandLink action="#{navigationController.showPage('9')}" class="wid-view-more" immediate="true">
+                                                                #{msgs.ViewAll}
+                                                            </p:commandLink>
+
+                                                            <div class="single-wid-product">
+
+                                                                <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(latestbooks.isbn)}"  class="product-f-image"  immediate="true">
+                                                                    <!--                                <f:param name="pageId" value="1" /> -->
+                                                                    <p:graphicImage library="images" name="#{latestbooks.bookimage}.jpg" alt="#{latestbooks.bookimage}" class="product-thumb"/>
+
+
+                                                                </p:commandLink>
+
+                                                                <h4>
+                                                                    <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(latestbooks.isbn)}" immediate="true">
+                                                                        #{latestbooks.title}
+                                                                    </p:commandLink>
+
+
+                                                                </h4>
+                                                                <h4>
+                                                                    <p:commandLink action ="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(latestbooks.isbn)}" immediate="true">
+                                                                        
+                                                                        <i>#{msgs.isbn}: #{latestbooks.isbn}</i>
+                                                                    </p:commandLink>
+
+
+                                                                </h4>
+                                                                 <h4>
+                                                                     <i>#{msgs.publisher}: #{latestbooks.publisher}</i> 
+                                                                
+                                                            </h4>
+                                                                <div class="product-wid-rating">
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                </div>
+                                                                <div class="product-wid-price">
+                                                                    <ins>#{latestbooks.wholesaleprice}</ins> <del>#{latestbooks.listprice}</del>
+                                                                </div>  
+                                                                <div>
+                                                               <h:form class="cart" id="addtocartForm">  
+                                                                 
+                                                              
+                                                                   <p:commandButton actionListener="#{bookinventorybean.setAddToCart(latestbooks.isbn)}" value="#{msgs.addToCart}" type="submit" onclick="window.location.reload();">
+                                                                  
+                                                                  </p:commandButton>
+                                                              </h:form> 
+
+                                                                </div>
+                                                            </div>
+                                                        </p:column>    
+
+
+
+
+                                                    </p:dataTable>     
+
+
+                                                </p:panel>   
+ 
+
+                                        </h:form>
+
+
+
+                                    </div>
+                                </div>
+
+                          
+                         <!-- Show book by genre-->  
+                         	
+                            <div class="col-md-4">
+                                <div class="single-product-widget">
+<!--                     <c:if  test="#{cookieBean.ifCookie()==false}" >-->
+                                    <h4 class="product-wid-title">#{msgs.recentbooks}</h4>
+                                    <h:form>
+                                        
+                                            <p:panel id="primepanel">
+                                                <p:dataTable value="#{bookinventoryJpaController.recentBooks}" var="recentbookinventory">
+
+                                                    <p:column>
+
+                                                        <p:commandLink action="#{navigationController.showPage('9')}" class="wid-view-more" immediate="true">
+                                                            #{msgs.ViewAll}
+                                                        </p:commandLink>
+
+                                                        <div class="single-wid-product">
+
+                                                            <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(recentbookinventory.isbn)}" class="product-f-image"  immediate="true">
+                                                                <!--                                <f:param name="pageId" value="1" /> -->
+                                                                <p:graphicImage library="images" name="#{recentbookinventory.bookimage}.jpg" alt="#{recentbookinventory.bookimage}" value="#{recentbookinventory.bookimage}" class="product-thumb"/>
+
+
+                                                            </p:commandLink>
+
+                                                            <h4>
+                                                                <p:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(recentbookinventory.isbn)}" immediate="true">
+                                                                    #{recentbookinventory.title}
+                                                                </p:commandLink>
+
+
+                                                            </h4>
+                                                             <h4>
+                                                                    <p:commandLink action ="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(recentbookinventory.isbn)}" immediate="true">
+                                                                        
+                                                                        <i>#{msgs.isbn}: #{recentbookinventory.isbn}</i>
+                                                                    </p:commandLink>
+
+
+                                                                </h4>
+                                                                 <h4>
+                                                                     <i>#{msgs.publisher}: #{recentbookinventory.publisher}</i> 
+                                                                
+                                                            </h4>
+
+                                                            <div class="product-wid-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="product-wid-price">
+                                                                <ins>#{recentbookinventory.wholesaleprice}</ins> <del>#{recentbookinventory.listprice }</del>
+                                                            </div>  
+                                                            <div>
+
+                                                                <p:commandButton  actionListener="#{bookinventorybean.setAddToCart(recentbookinventory.isbn)}"
+                                                                                 value="#{msgs.addToCart}">
+<!--                                                                    <f:param name="addToCart" value="#{msgs.addToCart}">
+
+                                                                    </f:param>-->
+                                                                </p:commandButton>
+
+                                                            </div>
+                                                        </div>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:panel>
+                                        
+                                    </h:form>
+<!-- </c:if>-->
+
+                                </div>
+                            </div>
+        </c:if> 
+                    </div>
+                </div>    
+
+ </div>  
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+

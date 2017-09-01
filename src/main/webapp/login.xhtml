@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+        <ui:define name="content">
+
+<div class="product-widget-area">
+                    <div class="zigzag-bottom"></div>	
+                    <div class="container">
+                        <div class="row">
+                 <div class="col-md-8">
+                    <div class="product-content-right">
+                        <div class="woocommerce">
+                           
+            
+            <h:form id="login-form-wrap" >
+                
+                    <p:panel id="primepanel">
+                        <h:panelGrid columns="">
+                       
+                             <p class="form-row form-row-first">
+                            <p:outputLabel for="username" value="#{msgs.username}" />
+                            
+                            <p:inputText id="username" label="#{msgs.username}"
+                                         value="#{loginbean.username}" required="true" />
+                               
+                            
+                            <p:message for="username" styleClass="errorMessage" />
+                            </p>
+                            <p class="form-row form-row-last">
+                            <p:outputLabel for="password" value="#{msgs.passwords}"/>
+
+                            <p:password id="password" label="#{msgs.passwords}"
+                                        value="#{loginbean.password}" required="true"/>
+                                
+                           
+                            <p:message for="password" styleClass="errorMessage" /> 
+                            </p>
+                             <div class="clear"></div>
+
+
+                        <p>
+                        <p:commandButton  value="#{msgs.login}" action="#{loginbean.doLogin()}" />
+<!--                        <p:commandButton value="#{msgs.cancel}"   action ="index" immediate="true" />-->
+                        </p>
+                        </h:panelGrid>
+                    </p:panel>
+                
+
+            
+            </h:form>
+                           
+                                
+                                <h:form> 
+                                 <p:outputLabel value="#{msgs.newuser}"/>
+                                 <p:commandLink action="register.xhtml" class="showcoupon"  value="#{msgs.register} " />
+                             
+                               </h:form> 
+                            
+       
+                            
+                            
+                        </div>
+                                </div>
+                            </div>
+                            
+                       
+                            
+                            
+</div>
+</div>
+</div>                    
+            
+
+        </ui:define>
+    </ui:composition>
+
+</html>
+

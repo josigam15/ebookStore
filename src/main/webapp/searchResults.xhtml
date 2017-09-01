@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+               <ui:define name="content">
+ 
+      
+        
+                <div class="product-widget-area">
+                    <div class="zigzag-bottom"></div>	
+                    <div class="container">
+  
+                        <div class="row"> 
+                        
+                            <h:form id="searchform">
+                                <h:panelGrid>
+                                    <p:panel id="primepanel">
+                                        <p:dataTable value="#{searchcontroller.bookresults}" var="bookresultlist">
+                                            <p:column>
+                                                 <p:graphicImage library="images" name="#{bookresultlist.bookimage}.jpg" alt="#{bookresultlist.bookimage}" value="#{bookresultlist.bookimage}" class="product-thumb"/>
+                                                 <h4>#{msgs.title}:</h4> <p:outputLabel value="#{bookresultlist.title}"/>    
+                                                 <h4>#{msgs.authorHeader}:</h4><p:outputLabel value="#{bookresultlist.author}" />
+                                                 <h4>#{msgs.isbn}:</h4><p:outputLabel value="#{bookresultlist.isbn}" />
+                                                 <h4>#{msgs.publisher}:</h4><p:outputLabel value="#{bookresultlist.publisher}" />
+                                                 <p:commandButton action="#searchform" actionListener= "#{bookinventorybean.setAddToCart(bookresultlist.isbn)}" value="#{msgs.addToCart}">#{msgs.addToCart}</p:commandButton>
+                                            </p:column>
+                                    
+                                    
+                                </p:dataTable>    
+                                        
+                                    </p:panel>
+
+                                </h:panelGrid>
+                                
+                            </h:form>    
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+              
+                            
+                        </div>
+                    </div>
+                </div>
+                        
+        </ui:define>
+    </ui:composition>
+</html>
+

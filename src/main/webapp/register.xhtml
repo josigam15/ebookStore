@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+<ui:define name="content">
+
+<div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+    <h2>  Register to our Ebookstore</h2>
+
+    <h:form id="registerForm">
+        <h:panelGrid> 
+            <p:panel id="primepanel" >
+                <h:panelGrid  >
+                    <p:outputLabel for="username" value="#{msgs.username}"/>
+
+                    <p:inputText id="username" label="#{msgs.username}"
+                                 value="#{clientProfileController.clientrecords.username}"  required="true"
+                                 requiredMessage="please enter a username"/>
+                    
+
+
+                    <p:message for="username" styleClass="errorMessage" />
+
+
+                    <p:outputLabel for="passwords" value="#{msgs.passwords}"/>
+
+                    <p:password id="passwords" label="#{msgs.passwords}"
+                                   value="#{clientProfileController.clientrecords.passwords}"  required="true"
+                                   match="passwords2" feedback="true" promptLabel="#{msgs.passwordPrompt}" weakLabel="#{msgs.weakLabel}"
+                                   goodLabel="#{msgs.goodLabel}" strongLabel="#{msgs.strongLabel}"
+                                   requiredMessage="password should not be empty"/>
+                    <p:message for="passwords" styleClass="errorMessage" />
+                    
+                    <p:outputLabel for="passwords2" value="#{msgs.confirmPass}"/>
+                    <p:password id="passwords2" label="#{msgs.confirmPass}"
+                                   value="#{clientProfileController.clientrecords.passwords}"  required="true"
+                                   requiredMessage="Password field should not be empty"
+                                   />
+                    <p:message for="passwords2" styleClass="errorMessage" />
+                    <p:outputLabel for="title" value="#{msgs.title}"/>
+
+                    <p:inputText id="title" label="#{msgs.title}"
+                                 value="#{clientProfileController.clientrecords.title}"  required="true"/>
+
+
+
+                    <p:message for="title" styleClass="errorMessage" />
+
+                    <p:outputLabel for="lastname" value="#{msgs.lastname}"/>
+
+                    <p:inputText id="lastname" label="#{msgs.lastname}"
+                                 value="#{clientProfileController.clientrecords.lastname}"  required="true"/>
+
+
+
+                    <p:message for="lastname" styleClass="errorMessage" />
+                    <p:outputLabel for="firstname" value="#{msgs.firstname}"/>
+
+                    <p:inputText id="firstname" label="#{msgs.firstname}"
+                                 value="#{clientProfileController.clientrecords.firstname}"  required="true"/>
+
+
+
+                    <p:message for="firstname" styleClass="errorMessage" />
+
+                    <p:outputLabel for="email" value="#{msgs.email}"/>
+                    <p:inputText id="email" label="#{msgs.email}"
+                                 value="#{clientProfileController.clientrecords.email}" required="true"
+                                 />
+
+                        <p:message for="email" />
+
+
+                        <p:outputLabel for="companyname" value="#{msgs.companyname}"/>
+
+                        <p:inputText id="companyname" label="#{msgs.companyname}"
+                                     value="#{clientProfileController.clientrecords.companyname}"  required="true"/>
+
+
+
+                        <p:message for="companyname" styleClass="errorMessage" />
+
+                        <p:outputLabel for="address1" value="#{msgs.adress1}"/>
+                        <p:inputText id="address1" label="#{msgs.adress1}"
+                                     value="#{clientProfileController.clientrecords.adress1}" required="true"
+                                     />
+
+                            <p:message for="address1" styleClass="errorMessage"/>
+
+
+
+                            <p:outputLabel for="address2" value="#{msgs.adress2}"/>
+                            <p:inputText id="address2" label="#{msgs.adress2}"
+                                         value="#{clientProfileController.clientrecords.adress2}" />
+
+                                <p:message for="address2" styleClass="errorMessage"/>
+
+
+                                <p:outputLabel for="city" value="#{msgs.city}"/>
+                                <p:inputText id="city" label="#{msgs.city}" value="#{clientProfileController.clientrecords.city}"/>
+                                    <p:message for="city" styleClass="errorMessage"/>
+                                        
+                                    <p:outputLabel for="province" value="#{msgs.province}"/>
+                                    <p:inputText id="province" label="#{msgs.province}" value="#{clientProfileController.clientrecords.province}"  required="true"/>
+
+                                    <p:message for="province" styleClass="errorMessage"/>
+                                    
+                                    <p:outputLabel for="country" value="#{msgs.country}"/>
+                                    <p:inputText id="country" label="#{msgs.country}" value="#{clientProfileController.clientrecords.country}"  required="true"/>
+
+                                    <p:message for="country" styleClass="errorMessage"/>
+
+                                    <p:outputLabel for="postalcode" value="#{msgs.postalcode}"/>
+                                    <p:inputText id="postalcode" label="#{msgs.postalcode}"
+                                                 value="#{clientProfileController.clientrecords.postalcode}" required="true"
+                                                 />
+
+                                    <p:message for="postalcode" styleClass="errorMessage"/>
+
+
+                                    <p:outputLabel for="homephone" value="#{msgs.homephone}"/>
+                                    <p:inputMask id="homephone" label="#{msgs.homephone}"
+                                                 value="#{clientProfileController.clientrecords.homephone}" required="true" 
+                                                 mask="(999) 999-9999"
+                                                 />
+
+
+                                        <p:message for="homephone" styleClass="errorMessage"/>
+
+
+                                        <p:outputLabel for="cellphone" value="#{msgs.cellphone}"/>
+                                        <p:inputMask id="cellphone" label="#{msgs.cellphone}"
+                                                     value="#{clientProfileController.clientrecords.cellphone}"
+                                                     mask="(999) 999-9999"
+                                                     />
+
+                                            <p:message for="cellphone" styleClass="errorMessage" />
+
+
+                                            </h:panelGrid> 
+                <h:form>
+                    <h:commandButton  value="#{msgs.register}" type="submit" action="#{clientProfileController.register()}"
+                                                             
+                                                             />
+</h:form>
+                                            </p:panel>
+
+
+                                            </h:panelGrid>
+
+
+                                            </h:form>
+
+                </div>
+            </div>
+        </div>
+</div>
+    
+    
+    
+    </ui:define>
+                                            </ui:composition>
+
+                                            </html>
+

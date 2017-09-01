@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+   <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+        <ui:define name="content">
+
+<div class="product-widget-area">
+                    <div class="zigzag-bottom"></div>	
+                    <div class="container">
+                        <div class="row">
+                           <div class="col-md-8">
+                                <c:if test="#{loginbean.loggedIn==false}">
+                                    <div class="woocommerce-info">#{msgs.Returncustomer}
+                                        <a class="showlogin" data-toggle="collapse" href="login.xhtml" aria-expanded="false" aria-controls="login-form-wrap">#{msgs.Clicktologin}</a>
+                                    </div>
+                                    <div class="woocommerce-info">#{msgs.newuser}
+                                        <a class="showlogin" data-toggle="collapse" href="login.xhtml" aria-expanded="false" aria-controls="login-form-wrap">#{msgs.register}</a>
+                                    </div>
+                                    
+                                </c:if>
+                               
+                               <!-- If user is logged in show invoice details-->
+                                <c:if test="#{loginbean.loggedIn==true}">
+                                    <h2>#{msgs.yourInvoice}</h2>
+                                               
+                    <div class="product-content-right">
+                        <div class="woocommerce">
+                         
+                                <h:form>
+                                    <h:dataTable value="#{bookinventoryJpaController.myBook}" var="bookincart">
+                                    <h:column>
+                                <table cellspacing="0" class="shop_table cart">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-remove">&nbsp;</th>
+                                            <th class="product-thumbnail">&nbsp;</th>
+                                            <th class="product-name">#{msgs.bookHeader}</th>
+                                            <th class="product-price">#{msgs.priceHeader}</th>
+                                            <th class="product-quantity">#{msgs.quantity}</th>
+                                            <th class="product-subtotal">#{msgs.total}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="cart_item">
+                                            <td class="product-remove">
+                                                
+                                                
+                                           <h:form>
+                                               <p:commandButton actionListener="#{invoicecontroller.setInvoiceisbn(bookincart.isbn)}" value="#{msgs.download}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                                                <p:fileDownload value="#{filedownloadcontroller.file}" />
+                                            </p:commandButton>
+                                        </h:form>
+                                            <script type="text/javascript">
+                                            function start() {
+                                                PF('statusDialog').show();
+                                            }
+
+                                            function stop() {
+                                                PF('statusDialog').hide();
+                                            }
+                                            </script>   
+                                            </td>
+
+                                            <td class="product-thumbnail">
+                                                
+                                                <h:graphicImage width="100" height="145" library="images" name="#{bookincart.bookimage}.jpg" value="#{bookincart.bookimage}" class="shop_thumbnail"/>
+                                                
+                                            </td>
+
+                                            <td class="product-name">
+                                                <h:commandLink value="#{bookincart.title}" action="#{navigationController.showPage('11')}"></h:commandLink> 
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span class="amount" id="wholesaleprice">#{bookincart.wholesaleprice}</span> 
+<!--                                                <f:convertNumber for="wholesaleprice" currencySymbol="$" />
+                                              -->
+                                            </td>
+
+                                            <td class="product-quantity">
+                                                <div class="quantity buttons_added">
+                                                    <h:outputLabel id="actualView" value="#{bookincart.isbn}" />
+                                                   
+                                                   
+                                                    
+                                                </div>
+                                            </td>
+
+                                            <td class="product-subtotal">
+                                                
+                                                <span class="amount" id="subtotal" >#{bookinventorybean.totalFormatedPrice}</span> 
+<!--                                                <f:convertNumber for="subtotal" currencySymbol="$"/>-->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="actions" colspan="6">
+                                              
+                                                      
+                                                <h:commandButton   actionListener="#{invoicecontroller.createInvoicedetails()}"  value="#{msgs.showinvoice}" id="finalize" class="checkout-button button alt wc-forward"/>
+                                             
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                    
+                                            </h:column>
+                                    </h:dataTable>
+                                    </h:form>
+                          
+
+                            <div class="cart-collaterals">
+
+
+                            <div class="cart_totals ">
+                                <h2>#{msgs.cartTotal}</h2>
+
+                                <table cellspacing="0">
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>#{msgs.cartSubtotal}</th>
+                                            <td><span class="amount">#{bookinventorybean.totalPrice}</span></td>
+                                        </tr>
+
+                                        <tr class="shipping">
+                                            <th>#{msgs.shippingAndhandling}</th>
+                                            <td>#{msgs.freeshipping}</td>
+                                        </tr>
+
+                                        <tr class="order-total">
+                                            <th>#{msgs.orderTotal}</th>
+                                            <td><strong><span class="amount">#{bookinventorybean.totalFormatedPrice}</span></strong> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            </div>
+                        </div>                        
+                    </div>    
+                                    
+                                    
+                                </c:if>
+                                              
+                                    
+                </div>
+                        </div>
+                    </div>
+</div>
+</html>
+

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+        <ui:define name="content">
+            
+            <div class="maincontent-area">
+                <div class="zigzag-bottom"></div>
+                <div class="container">
+                    <div class="row">
+                        <!-- select box for selecting the genre-->
+                        <!-- Books by genre begin-->
+                        <h:form id="booksgenreForm">
+
+<!--                            <h:panel id="primepanel">-->
+                                <h:dataTable value="#{bookinventoryJpaController.all}" var="booksbygenre">
+
+
+                                    <div class="col-md-12">
+                                        <div class="latest-product">
+
+                                            <h2 class="section-title">#{msgs.booksHeader}&nbsp;#{msgs.category}</h2> 
+                                              <div class="product-carousel owl-carousel owl-theme owl-responsive-1000 owl-loaded">
+                                                  <div class="owl-stage-outer">
+<!--                                                      <div class="owl-stage" style="transform: translate3d(-1160px, 0px, 0px); transition: all 0s ease 0s; width: 3712px;">-->
+                                                        <h:column>
+                                                            <div class="owl-item active" style="width: 212px; margin-right: 20px;">
+                                                              <div class="single-product">
+                                                                
+                                                                <div class="product-f-image">
+                                                                    
+                                                                   
+                                                                    <h:graphicImage width="400" height="500" library="images" name="#{booksbygenre.bookimage}.jpg" alt="#" value="#{booksbygenre.bookimage}"/>
+
+                                                                    <div class="product-hover">
+                                                                        <h:commandLink  actionListener="#{bookinventorybean.setAddToCart(booksbygenre.isbn)}"
+                                                                                          class="add-to-cart-link">
+                                                                           <i class="fa fa-shopping-cart"> 
+                                                                            #{msgs.addToCart}
+
+                                                                               </i>
+                                                                        </h:commandLink>
+                                                                        
+                                                                        <h:commandLink action="#{navigationController.showPage('1')}" actionListener="#{bookinventorybean.setActualView(booksbygenre.isbn)}"  class="view-details-link">
+                                                                            <i class="fa fa-link"> #{msgs.seedetails}                                       
+                                                                            </i>
+                                                                        </h:commandLink>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <h2><i>#{msgs.title}:</i><a href="singleBookView.xhtml">#{booksbygenre.title}</a></h2>
+                                                               
+                                                                <div class="product-carousel-price">
+                                                                      <ins>#{booksbygenre.listprice}</ins> <del>#{booksbygenre.wholesaleprice}</del>
+                                                                </div> 
+                                                            </div>  
+                                                                
+                                                            </div>
+                                                            
+                                                        </h:column>
+
+<!--                                    </div>-->
+
+                                                        </div>   
+                                                
+                                            </div> 
+                                           
+                                                        </div>
+                                                        </div>
+                                                    </h:dataTable>
+<!--                                                </p:panel>-->
+                                                </h:form>  
+                                                <!-- Books by genre end -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    </ui:define>
+                                    </ui:composition>
+                                    </html>
+

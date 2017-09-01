@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+   <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+    <ui:define name="content">
+        <!-- content begin -->
+ 
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.searchbooks}</h2>
+                        <h:form >
+                            <h:inputText  value="#{searchcontroller.title}" />
+                            <h:commandButton type="submit" value="#{msgs.searchButton}" actionListener="#{searchcontroller.search()}" action="#{navigationController.showPage('10')}"/>
+                        </h:form>
+                    </div>
+                    
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.searchByGenreHeader}</h2>
+                        <div class="thubmnail-recent">
+                            <h:form>
+                                <label class="" for="billing_country">#{msgs.genreHeader} <abbr title="required" class="required">* </abbr></label>
+                                <select class="thubmnail-recent" id="billing_country" name="billing_country">
+                                    <option value="">#{msgs.selectAGenre}</option>
+                                    <option value="#{searchcontroller.genre}">#{msgs.genre1}</option>
+                                     <option value="#{searchcontroller.genre}">#{msgs.genre2}</option>
+                                      <option value="#{searchcontroller.genre}">#{msgs.genre3}</option>
+                                       <option value="#{searchcontroller.genre}">#{msgs.genre4}</option>
+                                        <option value="#{searchcontroller.genre}">#{msgs.genre5}</option>
+                                </select>                   
+                               <h:commandButton type="submit" value="#{msgs.searchButton}" actionListener="#{searchcontroller.search()}" action="#{navigationController.showPage('10')}"/>
+                            </h:form>                            
+                        </div>
+                    </div>
+                  
+                    
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.download}</h2>
+          
+                            <h:form id="recentBookForm">
+                                <h:dataTable value="#{invoiceControllerDAO.invoicedetails}" var="invoicelist"> 
+                                  
+                                    <h:column>
+                                        
+                                        <h2>#{invoicelist.title}</h2>
+                                        <h:commandLink action="#{navigationController.showPage('1')}"   class="product-f-image">
+                                                                <!--                                <f:param name="pageId" value="1" /> -->
+                                                                <h:graphicImage library="images" name="#{invoicelist.bookimage}.jpg" 
+                                                                                alt="#{invoicelist.bookimage}" value="#{invoicelist.bookimage}" class="product-thumb"/>
+
+
+                                                            </h:commandLink>
+                                        <h:commandButton value="#{msgs.download}">
+                                            <p:fileDownload value="#{filedownloadcontroller.file}"/>
+                                            
+                                        </h:commandButton>
+                                        
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                
+               </ui:define>
+           </ui:composition>
+</html>
+

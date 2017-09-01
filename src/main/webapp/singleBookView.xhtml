@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+           <ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+               <ui:define name="content">
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.searchbooks}</h2>
+                        <h:form >
+                            <h:inputText  value="#{searchcontroller.title}" />
+                            <h:commandButton type="submit" value="#{msgs.searchButton}" actionListener="#{searchcontroller.search()}" action="#{navigationController.showPage('10')}"/>
+                        </h:form>
+                    </div>
+                    
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.searchByGenreHeader}</h2>
+                        <div class="thubmnail-recent">
+                            <h:form>
+                                <label class="" for="billing_country">#{msgs.genreHeader} <abbr title="required" class="required">* </abbr></label>
+                                <select class="thubmnail-recent" id="billing_country" name="billing_country">
+                                    <option value="">#{msgs.selectAGenre}</option>
+                                    <option value="#{searchcontroller.genre}">#{msgs.genre1}</option>
+                                     <option value="#{searchcontroller.genre}">#{msgs.genre2}</option>
+                                      <option value="#{searchcontroller.genre}">#{msgs.genre3}</option>
+                                       <option value="#{searchcontroller.genre}">#{msgs.genre4}</option>
+                                        <option value="#{searchcontroller.genre}">#{msgs.genre5}</option>
+                                </select>                   
+                               <h:commandButton type="submit" value="#{msgs.searchButton}" actionListener="#{searchcontroller.search()}" action="#{navigationController.showPage('10')}"/>
+                            </h:form>                            
+                        </div>
+                    </div>
+                  
+                    
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">#{msgs.recentbooks}</h2>
+                        <ul>
+                            <h:form id="recentBookForm">
+                                <h:dataTable value="#{bookinventoryJpaController.recentBooks}" var="bookinventory"> 
+                                  
+                                    <h:column>
+                                        
+                                        <li>#{bookinventory.title}</li>
+                                        
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="product-content-right">
+                        <h:form id="actualBookForm">
+                            <h:dataTable value="#{bookinventorybean.actualinView}" var="actual">
+                                            <h:column>
+                       
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="product-images">
+                                    <div class="product-main-img">
+<!--                                        <img src="#{actual.bookimage}" alt="image not viewed"/>-->
+                                        <h:graphicImage library="images" name="#{actual.bookimage}.jpg" alt="#{actual.bookimage}" value="#{actual.bookimage}" class="product-main-img"/> 
+                                    </div>
+                                    
+                                    <div class="product-gallery">
+                                        <i>#{msgs.title}:</i>   #{actual.title}
+                                    </div>
+                                    <div class="product-gallery">
+                                        <i>#{msgs.descriptionHeader}:</i>
+                                        <p>#{actual.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="product-inner">
+                                    
+                                    <h2 class="product-name" id="actualView">#{actual.isbn}</h2>
+                                    <div class="product-inner-price">
+                                        <ins>$#{actual.wholesaleprice}</ins> <del>$#{actual.listprice }</del>
+                                    </div>    
+                                    <h:form class="cart" id="addtocartForm">
+
+
+                    <h:commandButton action="#{bookinventorybean.setAddToCart(actual.isbn)}" value="#{msgs.addToCart}" type="submit"/>
+                                    
+                                    </h:form>
+                                    <div class="product-inner-category">
+                                        <br/>
+                                    </div> 
+                                  
+                                  
+                                    
+                                    <div role="tabpanel">
+                                        <ul class="product-tab" role="tablist">
+                                          
+                                            <li role="presentation" class="active">
+                                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">#{msgs.reviewsList}</a>
+                                            </li>
+                                        </ul>
+<!--                                        <div class="tab-content">-->
+                <!-- Begin reviews form -->                      
+<!--                                            <div role="tabpanel" class="tab-pane fade" id="home">-->
+
+     <h2>#{msgs.addreview}</h2>
+ <c:if test="#{loginbean.loggedIn==false}">
+                                    <div class="woocommerce-info">#{msgs.Returncustomer}
+                                        <a class="showlogin" data-toggle="collapse" href="login.xhtml" aria-expanded="false" aria-controls="login-form-wrap">#{msgs.Clicktologin}</a>
+                                    </div>
+               </c:if> 
+     <c:if test="#{loginbean.loggedIn==true}">
+     
+                                          <div class="submit-review">
+                                                 <h:form id="submitreview">   
+                                                                                                   
+                                                      <p>  
+                                                          <h:outputLabel   value="#{msgs.username}:" >
+                                                          #{loginbean.username}
+                                                          </h:outputLabel>
+                                                        
+                                                        
+                                                        
+                                                      </p>
+                                                        
+                                                     
+                                                        <div class="rating-chooser">
+                                                            <p>#{msgs.yourRating}</p>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>                                                  
+                                                        
+                                                            <h:outputLabel for="reviewtext" value=" #{msgs.reviewHeader}" />
+                                                            <h:inputTextarea id="reviewtext" cols="40" label="#{msgs.reviewsList}" rows="10" required="true" 
+                                                                             value="#{reviewscontroller.reviews.reviewtext}">
+                                                                <f:validateLength maximum="750"/> 
+                                                            </h:inputTextarea>                                                            
+                                                            <h:message for="reviewtext" styleClass="errorMessage" />
+                                                      
+                                                  
+                                                          <h:commandButton action="#"  id="store" value="#{msgs.submitreviews}" actionListener="#{reviewscontroller.createReview()}"/>
+                                                         <h:commandButton value="#{msgs.cancel}" action="#"   immediate="true" /> 
+                                                      
+                                                   
+                                                </h:form>   
+                                                    
+                                                    
+                                                </div>
+    
+     
+     </c:if>
+
+
+
+ <!-- End reviews form -->                                      
+                                                 
+                                            </div>
+
+                                     
+                                            
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="related-products-wrapper">
+                            
+                            <h2 class="related-products-title">All related reviews</h2>
+                            <p> 
+                               
+                                <h:form id="reviewslist">
+                                    <h:dataTable value="#{reviewsJpaController.all}" var="reviews" >
+                                        <p class="merlin"> 
+                                            <h:column>#{reviews.reviewsid}</h:column>
+                                            <h:column>#{reviews.reviewtext}</h:column>
+                                            <h:column>#{reviews.clientid}</h:column>
+                                        </p> 
+                                    </h:dataTable>
+                                    
+                                </h:form>
+                                
+                            </p>
+                        </div>
+                           
+                                                
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:form>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ 
+ 
+ 
+               </ui:define>
+           </ui:composition>
+</html>
+

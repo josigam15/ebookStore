@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/RootTemplate.xhtml">
+<ui:define name="content">
+        <div class="single-product-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="single-sidebar">
+                            <h2 class="sidebar-title">#{msgs.searchbooks}</h2>
+                            <h:form id="searchform">
+                                <p:panel>
+                                    <h:panelGrid>
+                              <p:outputLabel for="title" value="#{msgs.title}"/>
+                              <p:inputText id="title" label="#{msgs.title}" value="#{searchcontroller.title}"  />
+                             <p:message for="title" styleClass="errorMessage" />
+
+                             <p:outputLabel for="author" value="#{msgs.authorHeader}"/>
+                             <p:inputText id="author" label="#{msgs.authorHeader}" value="#{searchcontroller.author}"  />
+                             <p:message for="author" styleClass="errorMessage" />
+
+                             <p:outputLabel for="isbn" value="#{msgs.isbn}"/>
+                             <p:inputText id="isbn" label="#{msgs.isbn}" value="#{searchcontroller.isbn}"  />
+                             <p:message for="isbn" styleClass="errorMessage" />
+
+                                    <p:commandButton action="#{navigationController.showPage('7')}" actionListener="#{searchcontroller.search()}" value="#{msgs.searchButton}"/>
+
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+                            </h:form>
+                        </div>
+
+                        <div class="single-sidebar">
+                            <h2 class="sidebar-title">#{msgs.searchByGenreHeader}</h2>
+                            <div class="thubmnail-recent">
+                                <h:form id="searchbyGenreForm">
+                                    <p:panel>
+                                        <h:panelGrid>
+                                            <p:outputLabel class="" for="searchbyGenreForm">#{msgs.genreHeader}</p:outputLabel>
+
+<!--                                                <h:selectOneMenu id="seachgenre" value="" required="true" label="#{msgs.genreHeader}" >-->
+<!--                                                  <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true" />-->
+                                                    <h:dataTable value="#{bookinventoryJpaController.allgenre}" var="allgenre">
+
+                                                        <select class="thubmnail-recent" id="billing_country">
+                                                            <option value="">#{msgs.selectAGenre}</option>
+                                                            <h:column>
+
+                                                            <option value="#{allgenre.intern()}">#{allgenre.intern()}</option>
+
+                                                            </h:column>
+                                                        </select>
+                                                    </h:dataTable>
+
+
+
+                                        </h:panelGrid>
+
+
+                                    </p:panel>
+                                    <h:panelGrid>
+
+                                        <p:commandButton action="#{navigationController.showPage('7')}" actionListener="#{bookinventoryJpaController.getBookByGenre(allgenre.intern())}" value="#{msgs.searchButton}"/>
+                                    </h:panelGrid>
+
+
+                                </h:form>
+                            </div>
+                        </div>
+
+
+                        <div class="single-sidebar">
+                            <h2 class="sidebar-title">#{msgs.recentbooks}</h2>
+                            <ul>
+                                <h:form>
+                                    <h:dataTable value="#{bookinventoryJpaController.recentBooks}" var="bookinventory">
+                                        <h:column>
+<!--                                            <h:inputHidden id="actualView" value="{bookinventorybean.actualView}"/>-->
+                                            <i>#{msgs.title}</i><li><a href="singleBookView.xhtml">#{bookinventory.title}</a></li>
+                                            <i>#{msgs.isbn}</i><li>
+                                                <h:commandLink  id="actualView" value="#{bookinventorybean.actualView}" action="#{navigationController.showPage('1')}">
+                                                                #{bookinventory.isbn}
+                                                                
+                                                                </h:commandLink>
+                                            
+                                            </li>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="product-content-right">
+
+                            <div class="woocommerce">
+                                <c:if test="#{loginbean.loggedIn==false}">
+                                    <div class="woocommerce-info">#{msgs.Returncustomer}
+                                        <a class="showlogin" data-toggle="collapse" href="login.xhtml" aria-expanded="false" aria-controls="login-form-wrap">#{msgs.Clicktologin}</a>
+                                    </div>
+                                </c:if>
+
+                                <c:if test="#{loginbean.loggedIn==true}">
+<!--                                    <h:form enctype="multipart/form-data"  class="checkout">-->
+
+                                        <div id="customer_details" class="col2-set">
+                                            <div class="col-1">
+                                                <div class="woocommerce-billing-fields">
+                                                    <h3>#{msgs.checkout}</h3>
+
+                                                    <!--Detail de billing-->
+
+                                                    <h:form>
+                                                        <h:dataTable value="#{clientrecordsJpaController.myPerson}" var="clientrecords" bgcolor="#666">
+                                                            <h:column>
+                                                                <p id="billing_country_field" class="form-row form-row-wide address-field update_totals_on_change validate-required woocommerce-validated">
+                                                                    <label class="" for="billing_country">Country <abbr title="required" class="required">*</abbr></label>
+                                                                    <select class="country_to_state country_select" id="billing_country" name="billing_country">
+                                                                        <option value="">Select a country…</option>
+
+                                                                        <option value="CA">Canada</option>
+
+                                                                    </select>
+                                                                </p>
+
+                                                                <p id="billing_first_name_field" class="form-row form-row-first validate-required">
+                                                                    <label class="" for="billing_first_name">
+                                                                        Username<abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    
+                                                                    <h:inputText value="#{clientrecords.username}" readonly="true" class="input-text" id="billing_first_name"/>
+<!--                                                                    <input type="text"  placeholder="" id="billing_first_name" name="billing_first_name" class="input-text" readonly="true" />-->
+                                                                </p>
+
+                                                                <p id="billing_last_name_field" class="form-row form-row-last validate-required">
+                                                                    <label class="" for="billing_last_name">LASTNAME <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.lastname}" placeholder="" id="billing_last_name" name="billing_last_name" class="input-text"  readonly="true" />
+                                                                </p>
+                                                                <div class="clear"></div>
+
+                                                                <p id="billing_company_field" class="form-row form-row-wide">
+                                                                    <label class="" for="billing_company">FIRSTNAME</label>
+                                                                    <input type="text" value="#{clientrecords.firstname}" placeholder="" id="billing_company" name="billing_company" class="input-text"  readonly="true "/>
+                                                                </p>
+
+                                                                <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
+                                                                    <label class="" for="billing_address_1">ADRESS <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.adress1}" placeholder="Street address" id="billing_address_1" name="billing_address_1" class="input-text"  readonly="true "/>
+                                                                </p>
+
+                                                                <p id="billing_city_field" class="form-row form-row-wide address-field validate-required" data-o_class="form-row form-row-wide address-field validate-required">
+                                                                    <label class="" for="billing_city">TOWN / CITY <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.city}" placeholder="Town / City" id="billing_city" name="billing_city" class="input-text"  readonly="true "/>
+                                                                </p>
+                                                                <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
+                                                                    <label class="" for="billing_state">PROVINCE</label>
+                                                                    <input type="text" id="billing_state" name="billing_state" placeholder="State / County" value="#{clientrecords.province}" class="input-text"  readonly="true "/>
+                                                                </p>
+
+                                                                <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
+                                                                    <label class="" for="billing_state">COUNTRY</label>
+                                                                    <input type="text" id="billing_state" name="billing_state" placeholder="State / County" value="#{clientrecords.country}" class="input-text"  readonly="true "/>
+                                                                </p>
+                                                                <p id="billing_postcode_field" class="form-row form-row-last address-field validate-required validate-postcode" data-o_class="form-row form-row-last address-field validate-required validate-postcode">
+                                                                    <label class="" for="billing_postcode">POSTCODE <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.postalcode}" placeholder="Postcode / Zip" id="billing_postcode" name="billing_postcode" class="input-text"  readonly="true "/>
+                                                                </p>
+
+                                                                <div class="clear"></div>
+
+                                                                <p id="billing_email_field" class="form-row form-row-first validate-required validate-email">
+                                                                    <label class="" for="billing_email">HOMEPHONE <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.homephone}" placeholder="" id="billing_email" name="billing_email" class="input-text"  readonly="true "/>
+                                                                </p>
+                                                                <p id="billing_email_field" class="form-row form-row-first validate-required validate-email">
+                                                                    <label class="" for="billing_email">CELLPHONE <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.cellphone}" placeholder="" id="billing_email" name="billing_email" class="input-text"  readonly="true " />
+                                                                </p>
+
+                                                                <p id="billing_phone_field" class="form-row form-row-last validate-required validate-phone">
+                                                                    <label class="" for="billing_phone">EMAIL <abbr title="required" class="required">*</abbr>
+                                                                    </label>
+                                                                    <input type="text" value="#{clientrecords.email}" placeholder="" id="billing_phone" name="billing_phone" class="input-text"  readonly="true " />
+                                                                </p>
+                                                                <div class="clear">
+
+                                                                </div>
+                                                       
+
+                                                    <!--Fin detail billing-->
+
+                                                         </h:column>
+                                                        </h:dataTable>
+                                                    </h:form>
+                                                   
+
+
+                                                </div>
+                                            </div>
+ <!-- Book invoice detail -->
+                                 <h:form>
+                                            <div class="col-2">
+                                                
+                                                   
+                                                        
+                                                        
+                                                    
+                                                <div class="woocommerce-shipping-fields">
+                                                    <p id="order_comments_field" class="form-row notes">
+                                                        <label class="" for="order_comments">#{msgs.ordernotes}</label>
+                                                        <textarea cols="5" rows="2" placeholder="Notes about your order, e.g. special notes for delivery." id="order_comments" class="input-text " name="order_comments"></textarea>
+                                                    </p>
+
+
+                                                </div>
+
+                                            </div>
+                                   </h:form> 
+<!-- Book invoice detail end -->
+                                        </div>
+
+                                        <h3 id="order_review_heading">#{msgs.yourOrder}</h3>
+
+                                        <div id="order_review" style="position: relative;">
+                                            <table class="shop_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="product-name">#{msgs.booksHeader}</th>
+                                                        <th class="product-total">#{msgs.total}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <h:form>
+                                                        
+                                                          <tr class="cart_item">
+                                                       
+                                                            
+                                                                <td class="product-name"> 
+                                                                    <h:dataTable value="#{bookinventorybean.books}" var="bookincart">
+                                                                     <h:column>   
+                                                                    #{bookincart.title}<strong class="product-quantity">×1</strong>  
+                                                                    </h:column>
+                                                                     </h:dataTable>
+                                                            </td>
+                                                             
+                                                           <td class="product-name">
+                                                            #{bookinventorybean.cartSize} </td>
+                                                             
+                                                        <td class="product-total">
+                                                            <span class="amount">#{bookinventorybean.totalPriceWithTaxes}</span> </td>
+                                                            
+                                                            </tr>
+                                                            
+                                                           
+                                                      
+                                                            
+                                                       
+                                                    
+                                                   </h:form>
+                                                </tbody>
+                                                <tfoot>
+
+                                                    <tr class="cart-subtotal">
+                                                        <th>#{msgs.cartSubtotal}</th>
+                                                        <td><span class="amount">#{bookinventorybean.totalPrice}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="shipping">
+                                                        <th>#{msgs.shippingAndhandling}</th>
+                                                        <td>
+
+                                                            #{msgs.freeshipping}
+                                                            <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]"/>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr class="order-total">
+                                                        <th>#{msgs.orderTotal}</th>
+                                                        <td><strong><span class="amount">#{bookinventorybean.totalPriceWithTaxes}</span></strong> </td>
+                                                    </tr>
+
+                                                </tfoot>
+                                            </table>
+
+
+                                            <div id="payment">
+                                                <ul class="payment_methods methods">
+
+                                                    <li class="payment_method_cheque">
+                                                         <input type="radio" data-order_button_text="Proceed to PayPal" value="#{msgs.visa}" name="payment_method" class="input-radio" id="payment"/>
+                                                        <label for="payment">#{msgs.visa} </label>
+                                                        <div style="display:none;" class="payment_method_cheque">
+                                                            <p>#{msgs.visapayment}</p>
+                                                        </div>
+                                                    </li>
+                                                    <li class="payment_method_paypal">
+                                                        <input type="radio" data-order_button_text="Proceed to PayPal" value="#{msgs.mastercard}" name="payment_method" class="input-radio" id="payment_method_paypal"/>
+                                                        <label for="payment">#{msgs.mastercard} </label>
+                                                        <div style="display:none;" class="payment_method_cheque">
+                                                            <p>#{msgs.mastercard}</p>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+
+                                                <div class="form-row place-order">
+                                                    <h:form>
+<!--                                                        <p:commandButton value="{msgs.placeorder}" type="submit" action="{navigationController.showPage('8')}" actionListener="{invoicecontroller.setListofbooksIncart(bookinventorybean.books)}"   class="button alt" />
+                                                        
+                                                        <h:inputText value="{invoicecontroller.invoicedetails.isbnid}" id="isbn"  />
+                                                        <h:inputText value="{invoicecontroller.invoicedetails.price}" id="price"  />
+                                                        <h:inputText value="{invoicecontroller.invoice.clientnum}" id="clientnum"  /> 
+                                                        
+                                                        -->
+                                                        
+                                                        <p:commandButton value="#{msgs.placeorder}" type="submit" action="#{navigationController.showPage('6')}"    class="button alt" 
+                                                                         actionListener="#{invoiceControllerDAO.createIncoives()}"                
+                                                                         
+                                                        />    
+                                                        <!--}"  actionListener="{invoicecontroller.createInvoice()}"  -->
+                                                        
+                                                    </h:form>
+
+                                                 
+
+
+                                                </div>
+
+                                                <div class="clear"></div>
+
+                                            </div>
+                                        </div>
+                                
+
+
+
+
+
+
+
+
+                                </c:if>
+                                <!--fin du formulaire-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- content end-->
+    </ui:define>
+</ui:composition>
+
+</html>
+
